@@ -24,10 +24,10 @@ import com.example.countrybriefer.viewmodel.GeneralCountriesViewModel
 
 
 class GeneralCountries : Fragment() {
-
     private lateinit var viewModel: GeneralCountriesViewModel
     private val countryAdapter = CountryAdapter(arrayListOf())
     private lateinit var binding: FragmentGeneralCountriesBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,10 +54,20 @@ class GeneralCountries : Fragment() {
         viewModel= ViewModelProvider(this).get(GeneralCountriesViewModel::class.java)
         viewModel.refreshData()
 
+        val countryError: TextView = binding.swipeRefreshLayout.findViewById(R.id.countryError)
         val countryList: RecyclerView = binding.swipeRefreshLayout.findViewById(R.id.countryList)
+        val countryLoading: ProgressBar = binding.swipeRefreshLayout.findViewById(R.id.countryLoading)
+
         countryList.layoutManager = LinearLayoutManager(context)
         countryList.adapter = countryAdapter
 
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            countryList.visibility = View.GONE
+            countryError.visibility = View.GONE
+            countryLoading.visibility = View.VISIBLE
+            viewModel.refreshData()
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
         observeLiveData()
 
     }

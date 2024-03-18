@@ -89,6 +89,8 @@ dependencies {
 
     //rxJava
     implementation ("androidx.room:room-rxjava2:$room_version")
+    implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
+    implementation ("io.reactivex.rxjava2:rxjava:2.2.21")
 
 
     //glide
