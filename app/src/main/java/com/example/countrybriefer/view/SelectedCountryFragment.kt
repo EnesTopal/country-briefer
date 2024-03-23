@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.countrybriefer.R
 import com.example.countrybriefer.databinding.FragmentSelectedCountryBinding
+import com.example.countrybriefer.util.downloadFromUrl
+import com.example.countrybriefer.util.placeholderProgressBar
 import com.example.countrybriefer.viewmodel.SelectedCountryViewModel
 
 
@@ -37,14 +39,15 @@ class SelectedCountryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(SelectedCountryViewModel:: class.java)
-        viewModel.getDataFromRoom()
-
-
-
         arguments?.let {
             countryUid = SelectedCountryFragmentArgs.fromBundle(it).countryUid
         }
+        viewModel = ViewModelProvider(this).get(SelectedCountryViewModel:: class.java)
+        viewModel.getDataFromRoom(countryUid)
+
+
+
+
         observeLiveData()
     }
 
@@ -59,6 +62,9 @@ class SelectedCountryFragment : Fragment() {
                 binding.countryCurrency.text = country.countryCurrency
                 binding.countryLanguage.text = country.countryLanguage
                 binding.countryRegion.text = country.countryRegion
+                context?.let {
+                    binding.countryImage.downloadFromUrl(country.imageUrl, placeholderProgressBar(it))
+                }
 
             }
 

@@ -1,17 +1,22 @@
 package com.example.countrybriefer.viewmodel
 
+import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.countrybriefer.model.Country
+import com.example.countrybriefer.service.CountryDatabase
+import kotlinx.coroutines.launch
 
-class SelectedCountryViewModel: ViewModel() {
+class SelectedCountryViewModel(application: Application): BaseViewModel(application) {
 
     val countryLiveData = MutableLiveData<Country>()
 
-    fun getDataFromRoom(){
-
-        val country = Country("Turkey","Asia","Ankara","Try","Turkish","www.ss.com")
-        countryLiveData.value = country
+    fun getDataFromRoom(uuid: Int){
+        launch {
+            val dao = CountryDatabase(getApplication()).countryDao()
+            val country= dao.getCountry(uuid)
+            countryLiveData.value=country
+        }
     }
 
 }

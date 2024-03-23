@@ -65,7 +65,7 @@ class GeneralCountries : Fragment() {
             countryList.visibility = View.GONE
             countryError.visibility = View.GONE
             countryLoading.visibility = View.VISIBLE
-            viewModel.refreshData()
+            viewModel.refreshFromAPI()
             binding.swipeRefreshLayout.isRefreshing = false
         }
         observeLiveData()
