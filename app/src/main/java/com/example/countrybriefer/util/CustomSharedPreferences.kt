@@ -28,10 +28,10 @@ class CustomSharedPreferences {
 
     fun saveTime(time: Long){
         sharedPreferences?.edit(commit=true){
-            putLong("PREFERENCES_TIME",time)
+            putLong(PREFERENCES_TIME,time)
         }
     }
 
-    fun getTime()= sharedPreferences?.getLong(PREFERENCES_TIME,0)
+    fun getTime() = sharedPreferences?.getLong(PREFERENCES_TIME,0)
 
 }

@@ -18,14 +18,16 @@ class GeneralCountriesViewModel(application: Application): BaseViewModel(applica
     private val countryApiService = CountryAPIService()
     private val disposable = CompositeDisposable()
     private var customPreferences= CustomSharedPreferences(getApplication())
-    private var refreshTime = 1 * 60 * 1000 * 1000 * 1000L
+    private var refreshTime = 10 * 60 * 1000 * 1000 * 1000L
     val countries = MutableLiveData<List<Country>>()
     val countryError = MutableLiveData<Boolean>()
     val countryLoading = MutableLiveData<Boolean>()
 
+
     fun refreshData(){
-        val updateTime = customPreferences.getTime()
-        if(updateTime != null && updateTime != 0L && System.nanoTime()-updateTime < refreshTime ){
+        var updateTime = customPreferences.getTime()
+        Toast.makeText(getApplication(),"UT: $updateTime",Toast.LENGTH_LONG).show()
+        if(updateTime != null && updateTime != 0L && System.nanoTime() - updateTime < refreshTime ){
             getDataFromSQLite()
         }else  {
             getDataFromAPI()

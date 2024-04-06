@@ -15,6 +15,7 @@ abstract class CountryDatabase : RoomDatabase() {
        @Volatile private var instance: CountryDatabase? = null
 
         private val lock = Any()
+
         operator fun invoke(context: Context) = instance ?: synchronized(lock){
             instance ?: createDatabase(context).also {
                 instance = it
@@ -24,7 +25,6 @@ abstract class CountryDatabase : RoomDatabase() {
         private fun createDatabase(context : Context) = Room.databaseBuilder(
             context.applicationContext ,CountryDatabase:: class.java,"countrydatabase"
         ).build()
-
     }
 
 }
